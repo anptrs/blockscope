@@ -1,6 +1,6 @@
 """ Utility for local block scoped variables """
 
-__version__ = "0.1"
+__version__ = "0.1.1"
 
 from itertools import zip_longest
 
