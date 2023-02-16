@@ -34,7 +34,7 @@ Here are some examples:
         return 4, 5
 
     with Local('x, _?, y? , z~ ,_*', bar()) as local:
-        # x   local.x is set to first element of the tuple
+        # x   local.x is set to the first element of the tuple
         # _?  second element of the tuple if present is ignored
         # y?  local.y is set to 3rd element of tuple if present,
         #     otherwise no y is set and local.y will exist.
