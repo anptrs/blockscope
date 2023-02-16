@@ -24,9 +24,9 @@ class Local(object):
             with Local('x, _, z', f_returning_tuple()) as local:
                 # Given f_returning_tuple() returns a tuple (42, 137, 35)
                 # local.x gets 1st element of tuple or 1
-                # 2nd elmenet is ignored
+                # 2nd element is ignored
                 # local.z gets the third value of the tuple returned by f_returning_tuple()
-                # the sceond value of the tuple is ignored, because we used _
+                # the second value of the tuple is ignored, because we used _
         ```
     """
 
@@ -47,9 +47,9 @@ class Local(object):
                 'x, y, z?' - z is optional if not present in tuple it won't be set as attribute of Local.
                 'x,y,z~' - z is optional if not present in the following tuple will be set to None.
                 'x,y,z,_*' - only first three elements of the tuple are used, the rest is ignored.
-                'x,y,z,*'  - aslo allowed the same as above
+                'x,y,z,*'  - also allowed the same as above
 
-            Also tries to unpack dicitonaries and lists if not set to keyword argument::
+            Also tries to unpack dictionaries and lists if not set to keyword argument::
 
                 Local(zip(('x','y','z'), (1, 2, 3)))
                 Local([('x',1), ('y',2), ('z',3)])
@@ -128,7 +128,7 @@ class Local(object):
             self.__setattr__(i[0], i[1])
 
     def __getattr__(self, name):
-        # Not neccessary but implementing this shuts pylint up
+        # Not necessary but implementing this shuts pylint up
         raise AttributeError(f"'Local' object has no attribute '{name}'")
 
     def __enter__(self):

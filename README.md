@@ -16,7 +16,7 @@ Here is an example of the most basic of uses:
 ```
 Tuple Unpacking
 ---------------
-One of the more usefull features is tuple (or any iterable) unpacking:
+One of the more useful features is tuple (or any iterable) unpacking:
 ```py
     def foo():
         return 1, 2, 3
@@ -34,17 +34,21 @@ Here are some examples:
         return 4, 5
 
     with Local('x, _?, y? , z~ ,_*', bar()) as local:
-        # x   local.x is set to the first element of the tuple
-        # _?  second element of the tuple if present is ignored
+        # x   local.x is set to the first element of the tuple (4)
+        # _?  second element of the tuple (5) will be ignored if present
+        #     If _ was by itself and element not present an exception
+        #     would be raised: AttributeError with a helpful message
         # y?  local.y is set to 3rd element of tuple if present,
-        #     otherwise no y is set and local.y will not exist.
-        # z~  local.z is set if present or set to None otherwise
+        #     In this case there's no 3rd element and local.y will
+        #     not exist.
+        # z~  local.z would be set if present or set to None otherwise
+        #     In this case local.z will be None
         # _*  ignore the rest of the tuple elements. Always used
-        #     in the last postion with a placeholder _ or by itself
+        #     in the last position with a placeholder _ or by itself
         print( local.x, local.z) # prints: 4 None
 ```
 
-You can chain multiple unpackings and declarations:
+You can chain multiple un-packings and declarations:
 ```py
 
     with Local('x,y,*', foo(), '_,z' = bar(), i=6, j=7) as local:
