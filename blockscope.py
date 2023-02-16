@@ -1,13 +1,13 @@
 """ Utility for local block scoped variables """
 
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
 from itertools import zip_longest
 
 # pylint: disable=multiple-statements
 
 class Local(object):
-    """ Allows for block local variables. To be used with a `with` statement::
+    """ Allows for block local variables. To be used with the `with` statement::
 
             with Local(x=1, any_var=5, ...) as local:
                 assert local.x == 1
@@ -62,19 +62,19 @@ class Local(object):
         def parse_name_(s: str):
             s = s.strip()
             if len(s) == 0:
-                raise AttributeError("'Local': got empty attribute name")
+                raise AttributeError("'Local': empty attribute name")
             mfr = s[-1]
             if mfr == '?' or mfr == '~':
                 s = s[:-1].rstrip()
                 if len(s) == 0:
-                    raise AttributeError(f"'Local': got empty attribute name before '{mfr}'")
+                    raise AttributeError(f"'Local': empty attribute name before '{mfr}'")
                 if mfr == '~' and s == '_':
-                    raise AttributeError("'Local': got placeholder '_' attribute name and '~'")
+                    raise AttributeError("'Local': modifier '~' can't be applied to placeholder '_'")
             elif mfr == '*':
                 rem = s[:-1].rstrip()
                 if (len(rem) != 0) and (rem != '_'):
                     raise AttributeError("'Local': '*' wildcard must appear on its own after a "\
-                                         f"comma or after last placeholder '_'. Instead got '{s}'")
+                                         f"comma or after the last placeholder '_'. Instead got '{s}'")
                 return (None, '*')
             else:
                 mfr = None
@@ -109,7 +109,7 @@ class Local(object):
                         if name[1] == '~':
                             val = None
                         else:
-                            raise AttributeError(f"'Local' object can't map value for '{name[0]}' in {i}")
+                            raise AttributeError(f"'Local': no value present for '{name[0]}' in {i}")
                     if name[1] == '*': break
                     if name[0] == '_': continue
                     self.__setattr__(name[0], val)

@@ -147,93 +147,93 @@ def test_scope():
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,y, z, n', tu3()) as _sc:
             pass
-    assert "'Local' object can't map value for 'n' in (1, 2, 3)" in str(excinfo.value)
+    assert "'Local': no value present for 'n' in (1, 2, 3)" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,,n', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,n,', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,n, ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,n , ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('  ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local(',', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name" in str(excinfo.value)
+    assert "'Local': empty attribute name" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('?,x', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '?'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '?'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local(' ~,x', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '~'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '~'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,?', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '?'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '?'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x, ?', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '?'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '?'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,~ ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '~'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '~'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x, ~ ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '~'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '~'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x, ~, ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '~'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '~'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,~, ', tu3()) as _sc:
             pass
-    assert "'Local': got empty attribute name before '~'" in str(excinfo.value)
+    assert "'Local': empty attribute name before '~'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,_~', tu3()) as _sc:
             pass
-    assert "'Local': got placeholder '_' attribute name and '~'" in str(excinfo.value)
+    assert "'Local': modifier '~' can't be applied to placeholder '_'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('x,y*', tu3()) as _sc:
             pass
     assert "'Local': '*' wildcard must appear on its own after a comma or after"\
-           " last placeholder '_'. Instead got 'y*'" in str(excinfo.value)
+           " the last placeholder '_'. Instead got 'y*'" in str(excinfo.value)
 
     with pytest.raises(AttributeError) as excinfo:
         with Local('23,y,*', tu3()) as _sc:
