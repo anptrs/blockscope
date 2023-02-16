@@ -12,4 +12,4 @@ requires-python = ">=3.5"
 dynamic = ["version", "description"]
 
 [project.urls]
-Home = "https://github.com/antonpetersen/blockscope"
+Home = "https://github.com/anptrs/blockscope"

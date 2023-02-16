@@ -4,56 +4,55 @@ __version__ = "0.1"
 
 from itertools import zip_longest
 
-
 # pylint: disable=multiple-statements
 
 class Local(object):
-    """ Allows for block local variables, as much as Python would allow anyways.
-        Use a `with` statement::
+    """ Allows for block local variables. To be used with a `with` statement::
 
             with Local(x=1, any_var=5, ...) as local:
                 assert local.x == 1
                 # new variables are fine too:
-                local.z = 2
+                local.z = local.any_var + 2
 
         When the `with` block exits all of the attributes of `local` are destroyed.
 
         ### Tuple (or any iterable) unpacking
 
         ```
-            with Local('x, _, z', f_returning_tuple()) as local:
-                # Given f_returning_tuple() returns a tuple (42, 137, 35)
-                # local.x gets 1st element of tuple or 1
-                # 2nd element is ignored
-                # local.z gets the third value of the tuple returned by f_returning_tuple()
-                # the second value of the tuple is ignored, because we used _
+            with Local('x, _, z', foo()) as local:
+                # Given foo() returns a tuple (42, 137, 35)
+                # local.x gets 1st element of tuple or 42
+                # 2nd element, 137, is ignored, because _
+                # local.z gets the third value, 35, of the tuple
         ```
     """
 
     def __init__(self, *args, **kwargs):
-        """ Basic use::
+        """ Basic use, keyword arguments define the attributes of `local`::
 
-                with Local(x=1, y=2, z=3) as local:
-                    ...
+                with Local(x=1, y=2) as local:
+                    # introduce new 'variable' z:
+                    local.z = local.x + local.y
+                    print( local.z ) # --> 3
+                # when 'with' exits all three, x, y, and z are destroyed
 
-            Tuple or any iterable unpacking into variables (technically, Local's attributes)::
+            Tuple or any iterable unpacking into variables (technically, `local`'s attributes)::
 
-                with Local('x, _,y,z', (1, 'ignore', 2, 3)) as local:
+                with Local('x, _, y, z', (1, 'ignored', 2, 3)) as local:
                     assert local.x == 1 and local.y == 2 and local.z == 3
 
-            Optional argument unpacking with ? * ~ modifiers ::
+            Control optional unpacking with `?` `*` `~` modifiers:
+                - `'x, _?, z?'`   : `?` optional, if not present in the next tuple don't set z as an attribute of Local.
+                - `'x, y, z~'`    : `~` None-optional, if not present in the next tuple z will be set to None.
+                - `'x, y, z, _*'` : `*` must be the last element, ignores the rest of tuple elements.
+                - `'x, y, z, *'`  : the same as above, `*` by itself
 
-                'x, _, z' - placeholder _ ? ~ can also be applied to it
-                'x, y, z?' - z is optional if not present in tuple it won't be set as attribute of Local.
-                'x,y,z~' - z is optional if not present in the following tuple will be set to None.
-                'x,y,z,_*' - only first three elements of the tuple are used, the rest is ignored.
-                'x,y,z,*'  - also allowed the same as above
-
-            Also tries to unpack dictionaries and lists if not set to keyword argument::
+            Also will unpack dictionaries and lists if not set to keyword argument::
 
                 Local(zip(('x','y','z'), (1, 2, 3)))
                 Local([('x',1), ('y',2), ('z',3)])
-                Local(d = [('x',1), ('y',2), ('z',3)]) # just assign the whole dict to d, no arg unpacking
+                # just assign the whole dict to my_d, with no unpacking:
+                Local(my_d = [('x',1), ('y',2), ('z',3)])
 
         """
 

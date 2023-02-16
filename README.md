@@ -1,6 +1,6 @@
 # Block Local Scope
 
-This simple package allows for variables to be block scoped, as much as Python would allow it anyways.
+This simple package allows for variables to be block scoped, which is a common feature of many languages but is missing in Python.
 
 Here is an example of the most basic of uses:
 ```py
