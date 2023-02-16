@@ -1,4 +1,4 @@
-# Block Scope
+# Block Local Scope
 
 This simple package allows for variables to be block scoped, as much as Python would allow it anyways.
 
@@ -37,13 +37,14 @@ Here are some examples:
         # x   local.x is set to the first element of the tuple
         # _?  second element of the tuple if present is ignored
         # y?  local.y is set to 3rd element of tuple if present,
-        #     otherwise no y is set and local.y will exist.
+        #     otherwise no y is set and local.y will not exist.
         # z~  local.z is set if present or set to None otherwise
-        # _*  ignore the rest of the tuple elements.
+        # _*  ignore the rest of the tuple elements. Always used
+        #     in the last postion with a placeholder _ or by itself
         print( local.x, local.z) # prints: 4 None
 ```
 
-You can chain multiple unpacking and declarations:
+You can chain multiple unpackings and declarations:
 ```py
 
     with Local('x,y,*', foo(), '_,z' = bar(), i=6, j=7) as local:
