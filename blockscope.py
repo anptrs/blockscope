@@ -1,10 +1,18 @@
 """ Utility for local block scoped variables """
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
+from typing import Any
 from itertools import zip_longest
 
 # pylint: disable=multiple-statements
+
+
+# TODO: The static type checker might be silenced by using Any as base needs 3.11 Python
+# Note __enter__ already returns Any and that silences all of the usual use cases.
+#_LocalBase = Any
+#_LocalBase = object
+#class Local(object):
 
 class Local(object):
     """ Allows for block local variables. To be used with the `with` statement::
@@ -82,7 +90,7 @@ class Local(object):
                 raise AttributeError(f"'Local': attribute name '{s}' is not a valid identifier.")
             return (s, mfr)
 
-        var_names = None
+        var_names : Any = None
         for i in args:
             if var_names is None:
                 if isinstance(i, str):
@@ -130,7 +138,7 @@ class Local(object):
         # Not necessary but implementing this shuts pylint up
         raise AttributeError(f"'Local' object has no attribute '{name}'")
 
-    def __enter__(self):
+    def __enter__(self) -> Any:
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
